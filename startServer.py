@@ -106,12 +106,20 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             followed_request.request("GET",
                                       path,
                                       None,
-                                      {"Authorization":"Bearer "+str(access_token),
-                                       "Content-type":"application/x-www-form-urlencoded"})
+                                      {"Authorization":"Bearer "+access_token,
+                                       #"Content-type":"application/x-www-form-urlencoded",
+                                       "Connection":"keep-alive"})
             response = followed_request.getresponse()
-
-            json_data = json.loads(response.read().decode())
-            print(json_data)
+            self.send_response(response.status, response.reason)
+            body = response.read().decode()
+            #self.wfile.write(("token expires in "+str(expires_in)).encode())
+            #self.wfile.write(body.encode())
+            json_data = json.loads(body)
+            names = []
+            for item in json_data["artists"]["items"]:
+                names.append(item["name"])
+            print(names)
+            
             
 
 # Gestisco l'accesso alle risorse non menzionate precedentemente
