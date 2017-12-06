@@ -12,7 +12,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 client_id = "0b0257f3ab104ffc89c6f4529161b19c"
 client_secret_key = "85644beebd884fadb72fd7f766ee9814"
 scope = urllib.parse.quote("user-follow-read", safe='')
-redirect_uri = urllib.parse.quote("http://127.0.0.1:3000/callback", safe='')
+redirect_uri = "http://127.0.0.1:3000/callback"
 authorization_code = ""
 
        # Richiesta di accesso alle credenziali di spotify.com
@@ -20,7 +20,7 @@ def get_authorize_url():
     response_type = "code"
     url = ("https://accounts.spotify.com/authorize/?client_id="+client_id+
             "&response_type="+response_type+
-            "&redirect_uri="+redirect_uri+
+            "&redirect_uri="+urllib.parse.quote(redirect_uri, safe = '')+
             "&scope="+scope)
     return url
 
@@ -44,7 +44,7 @@ def getbody_tokenrequest(code,grant_type):
 
 def do_token_request(request_handler, code):
         # retriving parameters for token_request
-    body_parameters = getbody_tokenrequest(code, "client_credentials")
+    body_parameters = getbody_tokenrequest(code, "authorization_code")
     headers = getheaders_tokenrequest()
 
         # token_request
@@ -96,9 +96,22 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
                 # do HTTP POST to get token
             json_response = do_token_request(self, code)
             (access_token, token_type, expires_in, scope) = parse_json_response(json_response)
+            #self.wfile.write(access_token.encode())
 
                 # GESTIRE IL REFRESH DEL TOKEN QUANDO SCADE IL TIMEOUT (SUCCESSIVAMENTE)
             
+                # followed artists request
+            path = "/v1/me/following?type=artist"
+            followed_request = http.client.HTTPSConnection("api.spotify.com") 
+            followed_request.request("GET",
+                                      path,
+                                      None,
+                                      {"Authorization":"Bearer "+str(access_token),
+                                       "Content-type":"application/x-www-form-urlencoded"})
+            response = followed_request.getresponse()
+
+            json_data = json.loads(response.read().decode())
+            print(json_data)
             
 
 # Gestisco l'accesso alle risorse non menzionate precedentemente

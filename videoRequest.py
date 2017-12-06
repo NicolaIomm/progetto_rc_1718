@@ -31,4 +31,5 @@ def getVideos(q):
 		videos.append((name, id, getStats(id)))
 	return videos
 
+
 print(getVideos(input('Cerca su youtube:')))
