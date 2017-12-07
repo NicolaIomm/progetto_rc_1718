@@ -107,3 +107,24 @@ def parse_json_response_artists(json_data):
     for item in json_data["artists"]["items"]:
         names.append(item["name"])
     return names
+
+def load_page_to_show(followed_artists):
+    pattern = open("page_pattern.txt","r")
+    rows = pattern.readlines()
+    pattern.close()
+
+    insert_here = rows.index("</div>\n")+1
+    for artist in followed_artists:
+        format = "<div align=center><h4>"+artist+"<button onclick=\"cercaBiglietti(\'"+artist+"\'"+")\" >Cerca concerti</button></h4></div>"
+        rows.insert(insert_here,format)
+        insert_here += 1
+
+    page_to_write = open("result.html","w")
+    for line in rows:
+        page_to_write.write(line+"\n")
+    page_to_write.close()
+
+    page_to_load = open("result.html","r")
+    page = page_to_load.read()
+    page_to_load.close()
+    return page

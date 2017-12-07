@@ -23,7 +23,6 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             #message = file.read()
             #self.wfile.write(message.encode())
 
-            
             current_token_time = time.time()
 
                 # do HTTP POST to get token
@@ -45,11 +44,9 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             json_data = json.loads(body)
             followed_artists = parse_json_response_artists(json_data)
 
-            title = "<div align=center><h1>Lista degli artisti seguiti su spotify:</h1></div>"
-            self.wfile.write(title.encode())
-            for artist in followed_artists:
-                format = "<div align=center><h4>"+artist+"</h4></div>"
-                self.wfile.write(format.encode())
+                # Ottengo la stringa da mostrare con tutti i risultati, e la carico come risposta
+            page = load_page_to_show(followed_artists)
+            self.wfile.write(page.encode())
             
 # Gestisco l'accesso alle risorse non menzionate precedentemente
         else:
@@ -66,7 +63,7 @@ server_address = ("127.0.0.1", 3000)
 webserver = http.server.HTTPServer(server_address, myHttpRequestHandler)
 print("Server avviato su "+str(server_address)+". \nPer terminare l'esecuzione premere CTRL+C.")
 
-    # Catturo CTRL+C
+    # Catturo CTRL+C e in caso interrompo il server
 try:
     webserver.serve_forever()
 except KeyboardInterrupt:
