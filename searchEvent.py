@@ -26,9 +26,10 @@ def searchEvent(q):
 	r = conn.getresponse()
 	d = json.loads(r.read().decode())
 	events = []
-	for e in d['events']['event']:
-		info = getInfoEvent(e['id'])
-		events.append(info)
+	if d['events'] is not None:
+		for e in d['events']['event']:
+			info = getInfoEvent(e['id'])
+			events.append(info)
 	return events
 
 def getInfoEvent(idEvent):
