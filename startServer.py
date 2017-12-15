@@ -1,5 +1,7 @@
 from functions import *
 
+import searchEvent
+
     # Gestore richieste alle risorse del server localhost
 class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -54,7 +56,8 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             # print("Effettuo richiesta per "+str(artist))
             #
             #   Scrivere qui il codice python per cercare i biglietti tramite API
-            #
+            dict_result = searchEvent.searchEvent(artist)
+            print(dict_result)
             
             self.send_response(200,"OK")
             self.end_headers();
