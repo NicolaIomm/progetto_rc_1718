@@ -8,19 +8,19 @@ import pika
 def createQueue(q):
 	connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
 	channel = connection.channel()
-	channel.queue_declare(queue = q)
+	channel.queue_declare(queue = q, durable = True)
 
 	#return the connection to close and the channel 
 	return (connection, channel)
 
 def publish(c, m, q):
-	c.basic_publish(exchange='', routing_key = q, body = m)
+	c.basic_publish(exchange='', routing_key = q, body = m,  properties=pika.BasicProperties(delivery_mode = 2))
 
 def closeConnection(c):
 	c.close()
 
 #Example 
-#(co, ch) = createQueue('ticekts')
-#publish(ch, 'Utente X ha acquistato un biglieto per Concerto Y', 'tickets')
-#closeConnection(co)
+(co, ch) = createQueue('ticekts')
+publish(ch, 'Utente X ha acquistato un biglieto per Concerto Y', 'tickets')
+closeConnection(co)
 

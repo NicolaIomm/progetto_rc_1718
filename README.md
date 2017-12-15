@@ -2,6 +2,9 @@
 
 Avviare il server tramite:
 	~ python3 startServer.py
+
+TicketHandler gestisce la vendita dei biglietti. Ogni volta che un utenta acquista un biglietto, tickethandler riceve un messaggio tramite coda su
+su rabbitmq. Rabbitmq gira in locale su docker. Una volta creato il contenitore: $docker start name-container (rabbitmq)
 	
 Spiegazione dei file:
 	
@@ -22,3 +25,33 @@ Spiegazione dei file:
 							script e risultati della Web API a spotify
 							
 						
+
+API REST:
+
+	Title: Login
+	URL: 
+	Method: GET
+	Success response:
+	Error Response:
+
+	Title: Callback
+	URL: 
+	Method: GET
+	Success response:
+	Error Response:
+
+	Title: Cerca Concerti
+	URL: /cercaConcerti/artist=artist?
+	Method: GET
+	Parameters:
+		artist: string
+	Success response:
+		Code: 200
+	Error Response:
+
+
+	Title: Compra biglietti
+	URL: 
+	Method: GET
+	Success response:
+	Error Response:

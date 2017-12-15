@@ -2,18 +2,21 @@
 #Wait for a message from 
 
 import pika
+import time
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-channel.queue_declare(queue='tickets')
+channel.queue_declare(queue='tickets', durable = True)
 
 def buyTicket(ch, method, properties, body):
     print(body)
+    time.sleep(body.count(b'.'))
+    ch.basic_ack(delivery_tag = method.delivery_tag)
 
+channel.basic_qos(prefetch_count=1)
 channel.basic_consume(buyTicket,
-                      queue='tickets',
-                      no_ack=True)
+                      queue='tickets')
 
 
 
