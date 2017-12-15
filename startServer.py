@@ -47,6 +47,17 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
                 # Ottengo la stringa da mostrare con tutti i risultati, e la carico come risposta
             page = load_page_to_show(followed_artists)
             self.wfile.write(page.encode())
+        elif (self.path[0:14] == "/cercaConcerti"):
+            query = self.path[14:]
+            artist = urllib.parse.unquote(query[9:])
+            
+            # print("Effettuo richiesta per "+str(artist))
+            #
+            #   Scrivere qui il codice python per cercare i biglietti tramite API
+            #
+            
+            self.send_response(200,"OK")
+            self.end_headers();
             
 # Gestisco l'accesso alle risorse non menzionate precedentemente
         else:

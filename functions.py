@@ -115,7 +115,7 @@ def load_page_to_show(followed_artists):
 
     insert_here = rows.index("</div>\n")+1
     for artist in followed_artists:
-        format = "<div align=center><h4>"+artist+"<button onclick=\"cercaBiglietti(\'"+artist+"\'"+")\" >Cerca concerti</button></h4></div>"
+        format = "<div align=center><h4>"+artist+"<button onclick=\"cercaConcerti(\'"+artist+"\'"+")\" >Cerca concerti</button></h4></div>"
         rows.insert(insert_here,format)
         insert_here += 1
 
