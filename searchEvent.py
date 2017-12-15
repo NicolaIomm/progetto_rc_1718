@@ -50,7 +50,7 @@ def getInfoEvent(idEvent):
 	return ris
 
 
-l = searchEvent(input('Cerca concerto: '))
-for e in l:
-	print(e)
-	print('\n')
+#l = searchEvent(input('Cerca concerto: '))
+#for e in l:
+#	print(e)
+#	print('\n')
