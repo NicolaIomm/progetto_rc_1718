@@ -20,7 +20,7 @@ def closeConnection(c):
 	c.close()
 
 #Example 
-(co, ch) = createQueue('ticekts')
-publish(ch, 'Utente X ha acquistato un biglieto per Concerto Y', 'tickets')
-closeConnection(co)
+#(co, ch) = createQueue('ticekts')
+#publish(ch, 'Utente X ha acquistato un biglieto per Concerto Y', 'tickets')
+#closeConnection(co)
 
