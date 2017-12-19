@@ -1,6 +1,20 @@
 from functions import *
 
 import searchEvent
+import sendFunction
+
+    # Crea contesto ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
+    # Global variables used for OAuth 2.0 Spotify
+client_id = "0b0257f3ab104ffc89c6f4529161b19c"
+client_secret_key = "85644beebd884fadb72fd7f766ee9814"
+scope = urllib.parse.quote("user-follow-read", safe='')
+redirect_uri = "http://127.0.0.1:3000/callback"
+authorization_code = ""
+
+    # Global variable used for AMQP Queue
+TICKETS = "TICKETS"
 
     # Gestore richieste alle risorse del server localhost
 class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
@@ -61,6 +75,22 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             list_result = searchEvent.searchEvent(artist)
             body = getConcertBodyToShow(artist, list_result)
             self.wfile.write(body.encode())
+        elif (self.path[0:16] == "/compraBiglietti"):
+            query = self.path[16:]
+
+            target = urllib.parse.unquote(query[9:]).replace(","," ")
+            
+                # Invio risposta
+            self.send_response(200,"OK")
+            self.end_headers();
+
+                # Effettuo publish sul server amqp
+            (connection, channel) = sendFunction.createQueue(TICKETS)
+            msg = "Biglietto acquistato per: "+ticket
+            sendFunction.publish(channel, msg, TICKETS)
+            sendFunction.closeConnection(connection)
+
+            print("Biglietto acquistato per: "+target)
             
 # Gestisco l'accesso alle risorse non menzionate precedentemente
         else:

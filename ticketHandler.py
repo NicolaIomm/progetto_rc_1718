@@ -7,7 +7,9 @@ import time
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-channel.queue_declare(queue='tickets', durable = True)
+queue = "TICKETS"
+
+channel.queue_declare(queue, durable = True)
 
 def buyTicket(ch, method, properties, body):
     print(body)
@@ -16,7 +18,7 @@ def buyTicket(ch, method, properties, body):
 
 channel.basic_qos(prefetch_count=1)
 channel.basic_consume(buyTicket,
-                      queue='tickets')
+                      queue)
 
 
 

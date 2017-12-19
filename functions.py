@@ -6,16 +6,6 @@ import base64
 import json
 import time
 
-    # Crea contesto ssl
-ssl._create_default_https_context = ssl._create_unverified_context
-
-    # Global variables used for OAuth 2.0 Spotify
-client_id = "0b0257f3ab104ffc89c6f4529161b19c"
-client_secret_key = "85644beebd884fadb72fd7f766ee9814"
-scope = urllib.parse.quote("user-follow-read", safe='')
-redirect_uri = "http://127.0.0.1:3000/callback"
-authorization_code = ""
-
        # Ottengo url per accesso al proprio account spotify
 def get_authorize_url():
     response_type = "code"
@@ -136,30 +126,35 @@ def getConcertBodyToShow(artist, listConcert):
 
     data = ""
     for dict in listConcert:
-        data += "<p>"+str(i)+" --------------------------------------------------------------------"+"</p>"
-        data += "<p>Titolo: "+str(dict["title"])+"</p>"
-        data += "<p>Sede: "+str(dict["venue"])+"</p>"
-        data += "<p>Citta: "+str(dict["city"])+"</p>"
-        data += "<p>Prezzo: "+str(dict["price"])+"</p>"
-        data += "<p>Ora di inizio: "+str(dict["start_time"])+"</p>"
+        titolo = str(dict["title"])
+        sede = str(dict["venue"])
+        citta = str(dict["city"])
+        prezzo = str(dict["price"])
+        giorno = str(dict["start_time"])
+        data += "<p>"+str(i)+" --------------------------------------------------------------------"+"</p>\n"
+        data += "<p>Titolo: "+titolo+"</p>\n"
+        data += "<p>Sede: "+sede+"</p>\n"
+        data += "<p>Citta: "+citta+"</p>\n"
+        data += "<p>Prezzo: "+prezzo+"</p>\n"
+        data += "<p>Ora di inizio: "+giorno+"</p>\n"
+        data += "<button onclick=\"compraBiglietti('"+artist+","+titolo+","+giorno+"')\">Compra il biglietto</button>\n"
         i += 1
     
-    body = "<html>                                                              \
-            <head>                                                              \
-            <script>                                                            \
-            function compraBigliett(){                                          \
-            var request = new XMLHttpRequest();                                 \
-            request.open(\"GET\", \"compraBiglietti/?artist=\"+artist&, false ); \
-            request.setRequestHeader(\"Connection\",\"close\")                  \
-            request.send(null);                                                 \
-            }                                                                   \
-            </script>                                                           \
-            </head>                                                             \
-            <body>                                                              \
-            <div align=center>                                                  \
+    body = "<html>                                                              \n\
+            <head>                                                              \n\
+            <script>                                                            \n\
+            function compraBiglietti(concert){                                  \n\
+            var request = new XMLHttpRequest();                                 \n\
+            request.open(\"GET\", \"/compraBiglietti/?target=\"+concert, false );\n\
+            request.send(null);                                                 \n\
+            }                                                                   \n\
+            </script>                                                           \n\
+            </head>                                                             \n\
+            <body>                                                              \n\
+            <div align=center>                                                  \n\
             <h1>Lista dei concerti di "+artist+":</h1><br>" +                   \
             data +                                                              \
-            "</div>                                                             \
-            </body>                                                             \
+            "</div>                                                             \n\
+            </body>                                                             \n\
             </html>"    
     return body

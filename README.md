@@ -3,8 +3,10 @@
 Avviare il server tramite:
 	~ python3 startServer.py
 
-TicketHandler gestisce la vendita dei biglietti. Ogni volta che un utenta acquista un biglietto, tickethandler riceve un messaggio tramite coda su
-su rabbitmq. Rabbitmq gira in locale su docker. Una volta creato il contenitore: $docker start name-container (rabbitmq)
+TicketHandler gestisce la vendita dei biglietti. 
+Ogni volta che un utenta acquista un biglietto, tickethandler riceve un messaggio tramite coda su su rabbitmq. 
+Rabbitmq gira in locale su docker. 
+Una volta creato il contenitore: $docker start name-container (rabbitmq)
 	
 Spiegazione dei file:
 	
