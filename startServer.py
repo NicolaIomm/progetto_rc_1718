@@ -50,17 +50,17 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             page = load_page_to_show(followed_artists)
             self.wfile.write(page.encode())
         elif (self.path[0:14] == "/cercaConcerti"):
-            query = self.path[14:]
-            artist = urllib.parse.unquote(query[9:])
-            
-            # print("Effettuo richiesta per "+str(artist))
-            #
-            #   Scrivere qui il codice python per cercare i biglietti tramite API
-            dict_result = searchEvent.searchEvent(artist)
-            print(dict_result)
-            
+            query = self.path[14:-1]
+
+            artist = urllib.parse.unquote(query[8:])
+
+                # Invio risposta
             self.send_response(200,"OK")
             self.end_headers();
+                # Contatto api.eventful.com per cercare concerti di 'artist'
+            list_result = searchEvent.searchEvent(artist)
+            body = getConcertBodyToShow(artist, list_result)
+            self.wfile.write(body.encode())
             
 # Gestisco l'accesso alle risorse non menzionate precedentemente
         else:

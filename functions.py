@@ -115,7 +115,9 @@ def load_page_to_show(followed_artists):
 
     insert_here = rows.index("</div>\n")+1
     for artist in followed_artists:
-        format = "<div align=center><h4>"+artist+"<button onclick=\"cercaConcerti(\'"+artist+"\'"+")\" >Cerca concerti</button></h4></div>"
+        format = "<div align=center><form method=\"get\">   \
+                  <h4>"+artist+"</h4><button type=\"submit\" formaction=\"cercaConcerti/artist="+urllib.parse.quote(artist)+"\">cercaBiglietti</button>                                \
+                  </form></div>"
         rows.insert(insert_here,format)
         insert_here += 1
 
@@ -128,3 +130,36 @@ def load_page_to_show(followed_artists):
     page = page_to_load.read()
     page_to_load.close()
     return page
+
+def getConcertBodyToShow(artist, listConcert):
+    i = 1;
+
+    data = ""
+    for dict in listConcert:
+        data += "<p>"+str(i)+" --------------------------------------------------------------------"+"</p>"
+        data += "<p>Titolo: "+str(dict["title"])+"</p>"
+        data += "<p>Sede: "+str(dict["venue"])+"</p>"
+        data += "<p>Citta: "+str(dict["city"])+"</p>"
+        data += "<p>Prezzo: "+str(dict["price"])+"</p>"
+        data += "<p>Ora di inizio: "+str(dict["start_time"])+"</p>"
+        i += 1
+    
+    body = "<html>                                                              \
+            <head>                                                              \
+            <script>                                                            \
+            function compraBigliett(){                                          \
+            var request = new XMLHttpRequest();                                 \
+            request.open(\"GET\", \"compraBiglietti/?artist=\"+artist&, false ); \
+            request.setRequestHeader(\"Connection\",\"close\")                  \
+            request.send(null);                                                 \
+            }                                                                   \
+            </script>                                                           \
+            </head>                                                             \
+            <body>                                                              \
+            <div align=center>                                                  \
+            <h1>Lista dei concerti di "+artist+":</h1><br>" +                   \
+            data +                                                              \
+            "</div>                                                             \
+            </body>                                                             \
+            </html>"    
+    return body

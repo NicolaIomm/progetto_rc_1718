@@ -1,13 +1,5 @@
 <html>
 <head>
-<script>
-function cercaConcerti(artist){
-var request = new XMLHttpRequest();
-request.open("GET", "cercaConcerti/?artist="+artist, false );
-request.setRequestHeader("Connection","close")
-request.send(null);
-}
-</script>
 </head>
 <body>
 <div align=center>
