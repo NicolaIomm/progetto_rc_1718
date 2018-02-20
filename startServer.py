@@ -3,12 +3,13 @@ from functions import *
 import searchEvent
 import sendFunction
 
-
     # Global variable used for AMQP Queue
 TICKETS = "TICKETS"
+spotify_username = ""
 
     # Gestore richieste alle risorse del server localhost
 class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
+    
     def do_GET(self):
         if (self.path == "/login"):
             url = get_authorize_url()
@@ -36,9 +37,14 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             json_response_token = do_token_request(self, code)
             (access_token, token_type, expires_in, scope) = parse_json_response_token(json_response_token)
             #self.wfile.write(access_token.encode())
-            
+
+                 # Richiesta dell'username_spotify tramite API
+            global spotify_username
+            spotify_username = do_username_request(access_token)
+
+                
                 # Gestisco il refresh del token, nel caso in cui sia scaduto
-            refresh_token(current_time, expires_in, self, code)
+            #refresh_token(current_time, expires_in, self, code)
             
                 # request for followed artists
             query_response = do_followed_artists_query(access_token)
@@ -73,8 +79,7 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(200,"OK")
             self.end_headers();
 
-                # Richiesta dell'username_spotify tramite API
-            spotify_username = "Nicola Iommazzo"
+            spotify_username
             
                 # Effettuo publish sul server amqp
             (connection, channel) = sendFunction.createQueue(TICKETS)
