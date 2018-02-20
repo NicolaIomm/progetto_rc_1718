@@ -3,15 +3,6 @@ from functions import *
 import searchEvent
 import sendFunction
 
-    # Crea contesto ssl
-ssl._create_default_https_context = ssl._create_unverified_context
-
-    # Global variables used for OAuth 2.0 Spotify
-client_id = "0b0257f3ab104ffc89c6f4529161b19c"
-client_secret_key = "85644beebd884fadb72fd7f766ee9814"
-scope = urllib.parse.quote("user-follow-read", safe='')
-redirect_uri = "http://127.0.0.1:3000/callback"
-authorization_code = ""
 
     # Global variable used for AMQP Queue
 TICKETS = "TICKETS"
@@ -39,7 +30,7 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             #message = file.read()
             #self.wfile.write(message.encode())
 
-            current_token_time = time.time()
+            current_time = time.time()
 
                 # do HTTP POST to get token
             json_response_token = do_token_request(self, code)
@@ -47,9 +38,7 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             #self.wfile.write(access_token.encode())
             
                 # Gestisco il refresh del token, nel caso in cui sia scaduto
-            if (time.time() - current_token_time > expires_in):
-                json_response_token = do_refresh_token_request(self,code)
-                (access_token, token_type, expires_in, scope) = parse_json_response_token(json_response_token) 
+            refresh_token(current_time, expires_in, self, code)
             
                 # request for followed artists
             query_response = do_followed_artists_query(access_token)
@@ -64,7 +53,7 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             page = load_page_to_show(followed_artists)
             self.wfile.write(page.encode())
         elif (self.path[0:14] == "/cercaConcerti"):
-            query = self.path[14:-1]
+            query = self.path[14:-1]    # Tolgo il '?' finale, derivante dal metodo utilizzato nel codice javascritp per effettura una get alla risorsa '/cercaConcerti'
 
             artist = urllib.parse.unquote(query[8:])
 
@@ -84,13 +73,17 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(200,"OK")
             self.end_headers();
 
+                # Richiesta dell'username_spotify tramite API
+            spotify_username = "Nicola Iommazzo"
+            
                 # Effettuo publish sul server amqp
             (connection, channel) = sendFunction.createQueue(TICKETS)
-            msg = "Biglietto acquistato per: "+ticket
+            msg = "---------------------------                     \n\
+                   Utente: "+spotify_username+"                    \n\
+                   Biglietto acquistato: "+target
             sendFunction.publish(channel, msg, TICKETS)
             sendFunction.closeConnection(connection)
-
-            print("Biglietto acquistato per: "+target)
+            print(msg)
             
 # Gestisco l'accesso alle risorse non menzionate precedentemente
         else:

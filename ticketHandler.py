@@ -12,8 +12,8 @@ queue = "TICKETS"
 channel.queue_declare(queue, durable = True)
 
 def buyTicket(ch, method, properties, body):
-    print(body)
-    time.sleep(body.count(b'.'))
+    print(body.decode())    # print(body)
+    time.sleep(body.count(b'.')) 
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
 channel.basic_qos(prefetch_count=1)
