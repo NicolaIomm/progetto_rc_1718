@@ -54,4 +54,5 @@ API REST:
 	Parameters:
 		target: string
 	Method: GET
-	Success response: 200
+	Success response: 
+		Code: 200
