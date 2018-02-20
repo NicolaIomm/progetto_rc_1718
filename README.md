@@ -1,14 +1,16 @@
 # progetto_rc_1718
 
+Requisiti:
+	Docker:
+
+	Pika(PythonLib):
+		Installabile tramite:
+			~ pip install pika
+
 Avviare il server tramite:
 	~ python3 startServer.py
-
-TicketHandler gestisce la vendita dei biglietti. 
-Ogni volta che un utenta acquista un biglietto, tickethandler riceve un messaggio tramite coda su su rabbitmq. 
-Rabbitmq gira in locale su docker. 
-Una volta creato il contenitore: $docker start name-container (rabbitmq)
-	
-Spiegazione dei file:
+Avviare il logger per l'acquisto di biglietti tramite:
+	~ python3 ticketHandler.py
 	
 	# startServer.py : - Si occupa di avviare il server su localhost, 
 							porta 3000, e gestire le richieste HTTP.
