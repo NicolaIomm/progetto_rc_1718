@@ -23,4 +23,7 @@ channel.basic_consume(buyTicket,
 
 
 print('Service started. To exit press CTRL+C\nWaiting for someone to buy tickets...\n')
-channel.start_consuming()
+try:
+    channel.start_consuming()
+except KeyboardInterrupt:
+    print("Service stopped. Bye !")
