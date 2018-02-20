@@ -31,14 +31,12 @@ Spiegazione dei file:
 API REST:
 
 	Title: Login
-	URL: 
+	URL: /callback?code=code
 	Method: GET
+	Parameters:
+		code: string
 	Success response:
-
-	Title: Callback
-	URL: 
-	Method: GET
-	Success response:
+		Code: 200
 
 	Title: Cerca Concerti
 	URL: /cercaConcerti/artist=artist?
