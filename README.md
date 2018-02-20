@@ -34,13 +34,11 @@ API REST:
 	URL: 
 	Method: GET
 	Success response:
-	Error Response:
 
 	Title: Callback
 	URL: 
 	Method: GET
 	Success response:
-	Error Response:
 
 	Title: Cerca Concerti
 	URL: /cercaConcerti/artist=artist?
@@ -49,11 +47,12 @@ API REST:
 		artist: string
 	Success response:
 		Code: 200
-	Error Response:
 
 
 	Title: Compra biglietti
-	URL: 
+	URL: /compraBiglietti/target=target?
+	Parameters:
+		target: string
 	Method: GET
-	Success response:
-	Error Response:
+	Success response: 
+		Code: 200
