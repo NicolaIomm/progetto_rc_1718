@@ -48,7 +48,6 @@ API REST:
 	Success response:
 		Code: 200
 
-
 	Title: Compra biglietti
 	URL: /compraBiglietti/target=target?
 	Parameters:
@@ -56,3 +55,6 @@ API REST:
 	Method: GET
 	Success response: 
 		Code: 200
+
+Spiegazione Spotify OAuth2.0 : 
+ - https://developer.spotify.com/web-api/authorization-guide/
