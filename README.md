@@ -42,14 +42,6 @@ L'utente può poi scegliere di acquistare i biglietti tra una lista di più even
 API REST:
 
 	Title: Login
-	URL: /login
-	Method: GET
-	Parameters:
-		None
-	Success response:
-		Code: 301 - redirecting to spotify login
-
-	Title: Callback
 	URL: /callback?code=code
 	Method: GET
 	Parameters:
