@@ -9,8 +9,10 @@ Requisiti:
 
 Avviare il server tramite:
 	~ python3 startServer.py
+	
 Avviare il logger per l'acquisto di biglietti tramite:
 	~ python3 ticketHandler.py
+	
 Dopo aver crato oil container, avviare Rabbitmq su docker con:
 	~ docker start name-container (rabbitmq)
 	
