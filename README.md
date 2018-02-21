@@ -33,6 +33,14 @@ Avviare il logger per l'acquisto di biglietti tramite:
 API REST:
 
 	Title: Login
+	URL: /login
+	Method: GET
+	Parameters:
+		None
+	Success response:
+		Code: 301 - redirecting to spotify login
+
+	Title: Callback
 	URL: /callback?code=code
 	Method: GET
 	Parameters:
