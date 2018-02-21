@@ -58,3 +58,9 @@ API REST:
 
 Spiegazione Spotify OAuth2.0 : 
  - https://developer.spotify.com/web-api/authorization-guide/
+ 
+ Eventful API :
+ - http://api.eventful.com/docs
+ 
+ Rabbitmq :
+ - https://www.rabbitmq.com/getstarted.html
