@@ -13,7 +13,7 @@ Avviare il server tramite:
 Avviare il logger per l'acquisto di biglietti tramite:
 	~ python3 ticketHandler.py
 	
-Dopo aver crato oil container, avviare Rabbitmq su docker con:
+Dopo aver crato il container, avviare Rabbitmq su docker con:
 	~ docker start name-container (rabbitmq)
 	
 L'applicazione ricerca una serie di concerti, in base agli artisti ascoltati dall'utente, e permette di acqustare un biglietto per uno degli eventi disponibili.
