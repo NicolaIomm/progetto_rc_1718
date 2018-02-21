@@ -88,7 +88,7 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
                    Biglietto acquistato: "+target
             sendFunction.publish(channel, msg, TICKETS)
             sendFunction.closeConnection(connection)
-            print(msg)
+            #print(msg)
             
 # Gestisco l'accesso alle risorse non menzionate precedentemente
         else:
