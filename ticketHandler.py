@@ -13,12 +13,13 @@ channel.queue_declare(queue, durable = True)
 
 def buyTicket(ch, method, properties, body):
     print(body.decode())    # print(body)
-    time.sleep(body.count(b'.')) 
-    ch.basic_ack(delivery_tag = method.delivery_tag)
+    #time.sleep(body.count(b'.')) 
+    #ch.basic_ack(delivery_tag = method.delivery_tag)
 
-channel.basic_qos(prefetch_count=1)
+#channel.basic_qos(prefetch_count=1)
 channel.basic_consume(buyTicket,
-                      queue)
+                      queue,
+                      no_ack = True)
 
 
 

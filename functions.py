@@ -64,6 +64,7 @@ def do_token_request(request_handler, code):
     json_response = json.loads(response.read().decode())
     return json_response
 
+'''
 def refresh_token(current_time, expires_in, self, code):
     def do_refresh_token_request(request_handler, old_token):
 
@@ -85,6 +86,7 @@ def refresh_token(current_time, expires_in, self, code):
     if (time.time() - current_time > expires_in):
         json_response_token = do_refresh_token_request(self,code)
         (access_token, token_type, expires_in, scope) = parse_json_response_token(json_response_token)                     
+'''
 
     # Parse della risposta per ottenere il token
 def parse_json_response_token(json_response):
@@ -93,6 +95,22 @@ def parse_json_response_token(json_response):
     expires_in = int(json_response["expires_in"])
     scope = json_response["scope"]
     return (access_token, token_type, expires_in, scope)
+
+def do_username_request(access_token):
+    username_request = http.client.HTTPSConnection("api.spotify.com") 
+    username_request.request("GET",
+                          "/v1/me",
+                          None,
+                          {"Accept":"application/json",
+                           "Content-Type":"application/json",
+                           "Authorization":"Bearer "+access_token,
+                           "Connection":"keep-alive"})
+    response = username_request.getresponse()
+    
+    json_response = json.loads(response.read().decode())
+    #print(json_response)
+    username = json_response["display_name"]
+    return username
 
     # Effettuo la richiesta per ottenere gli artisti seguiti
 def do_followed_artists_query(access_token):
@@ -173,19 +191,5 @@ def getConcertBodyToShow(artist, listConcert):
             </html>"    
     return body
 
-def do_username_request(access_token):
-    username_request = http.client.HTTPSConnection("api.spotify.com") 
-    username_request.request("GET",
-                          "/v1/me",
-                          None,
-                          {"Accept":"application/json",
-                           "Content-Type":"application/json",
-                           "Authorization":"Bearer "+access_token,
-                           "Connection":"keep-alive"})
-    response = username_request.getresponse()
-    
-    json_response = json.loads(response.read().decode())
-    #print(json_response)
-    username = json_response["display_name"]
-    return username
+
     

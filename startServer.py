@@ -31,7 +31,7 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             #message = file.read()
             #self.wfile.write(message.encode())
 
-            current_time = time.time()
+            #current_time = time.time()
 
                 # do HTTP POST to get token
             json_response_token = do_token_request(self, code)
@@ -42,7 +42,6 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             global spotify_username
             spotify_username = do_username_request(access_token)
 
-                
                 # Gestisco il refresh del token, nel caso in cui sia scaduto
             #refresh_token(current_time, expires_in, self, code)
             

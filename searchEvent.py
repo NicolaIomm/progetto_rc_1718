@@ -12,7 +12,7 @@
 import http.client
 import ssl
 import json
-import xml.etree.ElementTree
+#import xml.etree.ElementTree
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
