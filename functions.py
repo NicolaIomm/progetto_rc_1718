@@ -185,7 +185,7 @@ def do_username_request(access_token):
     response = username_request.getresponse()
     
     json_response = json.loads(response.read().decode())
-    print(json_response)
+    #print(json_response)
     username = json_response["display_name"]
     return username
     

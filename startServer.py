@@ -79,7 +79,7 @@ class myHttpRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(200,"OK")
             self.end_headers();
 
-            spotify_username
+            #spotify_username
             
                 # Effettuo publish sul server amqp
             (connection, channel) = sendFunction.createQueue(TICKETS)
